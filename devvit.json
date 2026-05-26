@@ -1,0 +1,50 @@
+{
+  "$schema": "https://developers.reddit.com/schema/config-file.v1.json",
+  "name": "oracle-mod",
+  "blocks": {
+    "entry": "src/main.tsx",
+    "menu": {
+      "enable": true
+    },
+    "settings": {
+      "enable": true
+    },
+    "triggers": [
+      "onAppInstall",
+      "onPostSubmit",
+      "onPostDelete",
+      "onModAction"
+    ]
+  },
+  "post": {
+    "dir": "webroot",
+    "entrypoints": {
+      "default": {
+        "entry": "oracle-dashboard.html",
+        "height": "tall",
+        "inline": true
+      }
+    }
+  },
+  "permissions": {
+    "reddit": {
+      "enable": true,
+      "scope": "moderator"
+    },
+    "redis": true
+  },
+  "marketingAssets": {
+    "icon": "assets/icon.png"
+  },
+  "scripts": {
+    "build": "npm run build"
+  },
+  "sourceIgnores": [
+    "node_modules/",
+    "dist/",
+    "*.log"
+  ],
+  "dev": {
+    "subreddit": "oracle_mod_dev"
+  }
+}
