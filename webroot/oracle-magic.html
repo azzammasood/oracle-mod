@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #09070d;
+        --violet: #a855f7;
+        --violet-soft: #d8b4fe;
+        --cyan: #38bdf8;
+        --green: #22c55e;
+        --text: #f8fafc;
+        --muted: #a1a1aa;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        background: var(--bg);
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+      }
+
+      .stage {
+        position: relative;
+        width: 100%;
+        height: 96px;
+        overflow: hidden;
+        border: 1px solid rgba(168, 85, 247, 0.26);
+        border-radius: 8px;
+        background:
+          radial-gradient(circle at 20% 18%, rgba(168, 85, 247, 0.34), transparent 30%),
+          radial-gradient(circle at 84% 28%, rgba(56, 189, 248, 0.22), transparent 28%),
+          linear-gradient(135deg, #120d19 0%, #08060d 52%, #111827 100%);
+      }
+
+      .stage::before {
+        position: absolute;
+        inset: -40%;
+        content: "";
+        background:
+          conic-gradient(from 0deg, transparent, rgba(168, 85, 247, 0.22), transparent 34%),
+          conic-gradient(from 180deg, transparent, rgba(34, 197, 94, 0.12), transparent 28%);
+        animation: auraSpin 18s linear infinite;
+        filter: blur(12px);
+      }
+
+      .stage::after {
+        position: absolute;
+        inset: 0;
+        content: "";
+        background:
+          linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent),
+          repeating-linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.035) 0,
+            rgba(255, 255, 255, 0.035) 1px,
+            transparent 1px,
+            transparent 12px
+          );
+        animation: veilSweep 6s ease-in-out infinite;
+        opacity: 0.45;
+        mix-blend-mode: screen;
+      }
+
+      .copy {
+        position: absolute;
+        z-index: 3;
+        top: 14px;
+        left: 22px;
+        display: grid;
+        gap: 4px;
+        max-width: calc(100% - 360px);
+      }
+
+      .eyebrow {
+        color: var(--violet-soft);
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .title {
+        color: var(--text);
+        font-size: 21px;
+        font-weight: 800;
+        line-height: 1.08;
+      }
+
+      .subtitle {
+        max-width: 420px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.25;
+      }
+
+      .sigils {
+        position: absolute;
+        z-index: 2;
+        right: 18px;
+        top: 50%;
+        width: min(40vw, 320px);
+        height: 94px;
+        transform: translateY(-50%);
+      }
+
+      .orb {
+        animation: orbPulse 3.8s ease-in-out infinite;
+        filter: url("#oracleGlow");
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+
+      .ring-fast {
+        animation: ringSpin 8s linear infinite;
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+      }
+
+      .ring-slow {
+        animation: ringSpinReverse 14s linear infinite;
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+      }
+
+      .rune {
+        animation: runeFloat 4.8s ease-in-out infinite;
+      }
+
+      .rune:nth-of-type(2n) {
+        animation-delay: -1.8s;
+      }
+
+      .spark {
+        opacity: 0;
+        animation: sparkRise 4.6s ease-in-out infinite;
+        animation-delay: var(--delay);
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+
+      .thread-line {
+        stroke-dasharray: 8 12;
+        animation: signalFlow 7s linear infinite;
+      }
+
+      @keyframes auraSpin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes veilSweep {
+        0%,
+        100% {
+          transform: translateX(-32%);
+        }
+        50% {
+          transform: translateX(32%);
+        }
+      }
+
+      @keyframes orbPulse {
+        0%,
+        100% {
+          transform: scale(0.96);
+          opacity: 0.88;
+        }
+        50% {
+          transform: scale(1.04);
+          opacity: 1;
+        }
+      }
+
+      @keyframes ringSpin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes ringSpinReverse {
+        to {
+          transform: rotate(-360deg);
+        }
+      }
+
+      @keyframes runeFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+          opacity: 0.48;
+        }
+        50% {
+          transform: translateY(-5px);
+          opacity: 1;
+        }
+      }
+
+      @keyframes sparkRise {
+        0% {
+          transform: translateY(14px) scale(0.4);
+          opacity: 0;
+        }
+        18%,
+        68% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-26px) scale(1);
+          opacity: 0;
+        }
+      }
+
+      @keyframes signalFlow {
+        to {
+          stroke-dashoffset: -80;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .copy {
+          max-width: 58%;
+        }
+
+        .title {
+          font-size: 19px;
+        }
+
+        .sigils {
+          width: 265px;
+          opacity: 0.78;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .copy {
+          left: 18px;
+          top: 14px;
+          max-width: 235px;
+        }
+
+        .title {
+          font-size: 18px;
+        }
+
+        .subtitle {
+          display: none;
+        }
+
+        .sigils {
+          right: -42px;
+          width: 245px;
+          opacity: 0.72;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="stage" aria-label="Oracle animated signal field">
+      <section class="copy">
+        <div class="eyebrow">Live Signal Field</div>
+        <div class="title">Oracle is watching early thread motion</div>
+        <div class="subtitle">Velocity, reports, history, and title heat resolve into one intervention forecast.</div>
+      </section>
+
+      <svg class="sigils" viewBox="0 0 360 132" role="img" aria-label="Animated oracle crystal and signal arcs">
+        <defs>
+          <radialGradient id="orbGradient" cx="50%" cy="42%" r="62%">
+            <stop offset="0%" stop-color="#f5d0fe" />
+            <stop offset="38%" stop-color="#a855f7" />
+            <stop offset="75%" stop-color="#312e81" />
+            <stop offset="100%" stop-color="#111827" />
+          </radialGradient>
+          <linearGradient id="threadGradient" x1="0" x2="1">
+            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0" />
+            <stop offset="45%" stop-color="#a855f7" />
+            <stop offset="100%" stop-color="#22c55e" stop-opacity="0.3" />
+          </linearGradient>
+          <filter id="oracleGlow" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="5" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <path
+          class="thread-line"
+          d="M4 82 C54 12, 128 116, 188 58 S288 16, 352 72"
+          fill="none"
+          stroke="url(#threadGradient)"
+          stroke-width="2"
+          opacity="0.9"
+        />
+        <path
+          class="thread-line"
+          d="M16 102 C82 54, 126 90, 176 34 S282 96, 348 32"
+          fill="none"
+          stroke="url(#threadGradient)"
+          stroke-width="1.2"
+          opacity="0.45"
+        />
+
+        <g transform="translate(218 66)">
+          <circle class="ring-slow" cx="0" cy="0" r="54" fill="none" stroke="#a855f7" stroke-width="1" opacity="0.46" />
+          <circle
+            class="ring-fast"
+            cx="0"
+            cy="0"
+            r="42"
+            fill="none"
+            stroke="#38bdf8"
+            stroke-width="1.2"
+            stroke-dasharray="9 15"
+            opacity="0.72"
+          />
+          <circle
+            class="ring-slow"
+            cx="0"
+            cy="0"
+            r="29"
+            fill="none"
+            stroke="#d8b4fe"
+            stroke-width="1"
+            stroke-dasharray="3 8"
+            opacity="0.66"
+          />
+          <circle class="orb" cx="0" cy="0" r="22" fill="url(#orbGradient)" />
+          <path class="rune" d="M-7 -5 L0 -18 L7 -5 L0 18 Z" fill="none" stroke="#f5d0fe" stroke-width="1.2" opacity="0.82" />
+          <path class="rune" d="M-18 0 H18 M0 -18 V18" stroke="#38bdf8" stroke-width="1" opacity="0.52" />
+        </g>
+
+        <g fill="#f5d0fe">
+          <circle class="spark" style="--delay: -0.3s" cx="92" cy="92" r="2.2" />
+          <circle class="spark" style="--delay: -1.6s" cx="128" cy="36" r="1.6" />
+          <circle class="spark" style="--delay: -2.4s" cx="174" cy="102" r="1.8" />
+          <circle class="spark" style="--delay: -3.2s" cx="278" cy="92" r="2" />
+          <circle class="spark" style="--delay: -4.1s" cx="312" cy="44" r="1.4" />
+        </g>
+
+        <g stroke="#d8b4fe" stroke-width="1" opacity="0.58">
+          <path class="rune" d="M80 20 l7 7 l-7 7 l-7 -7 z" fill="none" />
+          <path class="rune" d="M318 96 l8 0 l-4 -8 z" fill="none" />
+          <path class="rune" d="M146 70 c6 -8 12 -8 18 0 c-6 8 -12 8 -18 0z" fill="none" />
+        </g>
+      </svg>
+    </main>
+  </body>
+</html>
